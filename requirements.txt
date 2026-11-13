@@ -1,0 +1,2 @@
+# No third-party dependencies — the relay server is Python stdlib only.
+# This empty file exists so Render detects a Python app.

@@ -1,0 +1,23 @@
+# Render Blueprint — MeowNews24 relay server (one-click deploy)
+# Put this repo on GitHub, then in Render: New -> Blueprint -> connect the repo.
+# Render creates the Web Service below and gives it a stable URL:
+#   https://meownews24-relay.onrender.com
+services:
+  - type: web
+    name: meownews24-relay
+    runtime: python
+    plan: free
+    region: singapore
+    buildCommand: pip install -r requirements.txt
+    startCommand: python relay_server.py --host 0.0.0.0 --port $PORT --data-dir ./data
+    envVars:
+      # Placeholder secret, set by Muse at deploy time. The bot (v47)
+      # registers its own secret via POST /relay/register, which then
+      # also works. v4 accepts EITHER secret, so Muse authenticates
+      # with this env value and the bot with its registered value.
+      # Render generates a random value here; copy it into your notes
+      # (it is the secret Muse uses for X-Relay-Secret).
+      - key: RELAY_SECRET
+        generateValue: true
+      - key: PYTHON_VERSION
+        value: 3.11.0
